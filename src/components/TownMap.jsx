@@ -2,10 +2,10 @@ import React from "react";
 import Building from "./Building";
 
 const BUILDINGS = [
-  { id: "cafe", type: "cafe", x: 80, y: 120 },
-  { id: "study", type: "study", x: 280, y: 80 },
-  { id: "home", type: "home", x: 480, y: 140 },
-  { id: "social", type: "social", x: 180, y: 280 },
+  { id: "cafe", type: "cafe", x: 80, y: 120, width: 24, height: 28 },
+  { id: "study", type: "study", x: 280, y: 80, width: 24, height: 28 },
+  { id: "home", type: "home", x: 480, y: 140, width: 24, height: 28 },
+  { id: "social", type: "social", x: 180, y: 280, width: 24, height: 28 },
 ];
 
 const MAP_WIDTH = 800;
@@ -18,10 +18,7 @@ export default function TownMap({
   nearBuilding,
 }) {
   return (
-    <div
-      className="relative bg-gradient-to-b from-green-200 via-green-300 to-green-400"
-      style={{ width: MAP_WIDTH, height: MAP_HEIGHT }}
-    >
+    <div className="relative w-full h-full bg-gradient-to-b from-green-200 via-green-300 to-green-400">
       {/* Ground texture */}
       <div className="absolute inset-0 opacity-30">
         {[...Array(20)].map((_, i) => (

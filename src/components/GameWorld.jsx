@@ -8,10 +8,13 @@ export default function GameWorld({ setRoom }) {
   const { direction, isMoving } = useMovement(position, setPosition);
   const [nearBuilding, setNearBuilding] = useState(null);
   const handleBuildingClick = (id) => {
-    if (nearBuilding === id) {
-      setRoom(id);
-    }
+    // if (nearBuilding === id) {
+    console.log("Entering building:", id);
+    setRoom(id);
+    // }
   };
+  const AVATAR_WIDTH = 32;
+  const AVATAR_HEIGHT = 48;
   const [myAvatarStyle, setMyAvatarStyle] = useState({
     body: 0,
     hair: 1,
@@ -21,21 +24,26 @@ export default function GameWorld({ setRoom }) {
   useEffect(() => {
     let nearest = null;
     let minDist = Infinity;
+
+    const avatarX = position.x + AVATAR_WIDTH / 2;
+    const avatarY = position.y + AVATAR_HEIGHT / 2;
+
     BUILDINGS.forEach((building) => {
-      const centreX = building.x + 48;
-      const centreY = building.y + 56;
+      const centreX = building.x;
+      const centreY = building.y + building.height / 2;
 
-      const dx = position.x - centreX;
-      const dy = position.y - centreY;
-      const dist = Math.sqrt(dx * dx + dy * dy);
+      const dx = avatarX - centreX;
+      const dy = avatarY - centreY;
+      const dist = Math.hypot(dx, dy);
 
-      if (dist < 60 && dist < minDist) {
-        nearest = b.id;
+      if (dist < 90 && dist < minDist) {
+        nearest = building.id;
         minDist = dist;
       }
     });
 
     setNearBuilding(nearest);
+    console.log("Nearest building:", nearest);
   }, [position]);
 
   return (
@@ -48,7 +56,7 @@ export default function GameWorld({ setRoom }) {
     //   }}
     // >
 
-    <div className="relative w-screen h-screen overflow-hidden bg-[#E8E0F0]">
+    <div className="w-screen h-screen overflow-hidden">
       <TownMap
         playerX={position.x}
         playerY={position.y}
@@ -62,6 +70,7 @@ export default function GameWorld({ setRoom }) {
           left: position.x - 24,
           top: position.y - 24,
           zIndex: 20,
+          pointerEvents: "none",
         }}
       >
         <Player
